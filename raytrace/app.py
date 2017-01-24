@@ -1,7 +1,7 @@
 from tropofy.app import AppWithDataSets, Step, StepGroup
 from tropofy.widgets import SimpleGrid, ParameterForm
 
-from raytrace.models import Material, Sphere, Light
+from models import Material, Sphere, Light
 
 from widgets import OutputImage, ExecuteRender
 from parameters import CameraParameters, ImageParameters
@@ -115,3 +115,32 @@ class RaytracerApp(AppWithDataSets):
                 ]
             )
         ]
+
+    def get_home_page_content(self):
+        return {
+            'content_app_name_header': '''
+            <div>
+            <span style="vertical-align: middle;">Raytracer</span>
+            <img src="http://fs.tjwakeham.com/tropofy/_app_logo.png" alt="main logo" style="width:15%">
+            </div>
+            ''',
+            'content_single_column_app_description': '''
+            <p>In computer graphics, ray tracing is a technique for generating an image by tracing the path of
+            light through pixels in an image plane and simulating the effects of its encounters with virtual objects.</p>
+
+            </p>The technique is capable of producing a very high degree of visual realism, usually higher than that of
+            typical scanline rendering methods, but at a greater computational cost. This makes ray tracing best
+            suited for applications where the image can be rendered slowly ahead of time, such as in still images
+            and film and television visual effects, and more poorly suited for real-time applications like video
+            games where speed is critical. Ray tracing is capable of simulating a wide variety of optical effects,
+            such as reflection and refraction, scattering, and dispersion phenomena (such as chromatic aberration).</p>
+
+            <p><a href='https://en.wikipedia.org/wiki/Ray_tracing_(graphics)'>Wikipedia</a></p>
+            <div style="width: 438px; margin: auto;" class="well">
+                <img src="http://fs.tjwakeham.com/tropofy/_demo_output.png" alt="demo" style="width: 400px; margin: auto;">
+            </div>
+            ''',
+            'content_row_4_col_1_content': '''
+            This app was created by Tim Wakeham using the <a href="http://www.tropofy.com" target="_blank">Tropofy platform</a>.
+            '''
+        }

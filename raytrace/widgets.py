@@ -1,9 +1,9 @@
+import random
 import os.path
 import ftplib
 
 from matplotlib.pyplot import imsave
 from tropofy.widgets import StaticImage, ExecuteFunction
-from tropofy.app import AppDataSet
 
 import renderer
 import models
@@ -13,7 +13,8 @@ from parameters import CameraParameters, ImageParameters
 class OutputImage(StaticImage):
     def get_file_path(self, app_session):
         filename = app_session.data_set.get_param(ImageParameters.filename.name)
-        return 'http://fs.tjwakeham.com/tropofy/' + filename
+        # we don't want the browser to cache the image, so append a dummy get var to it
+        return 'http://fs.tjwakeham.com/tropofy/{0}?dummy={1}'.format(filename, random.randint(10000, 99999))
 
 
 class ExecuteRender(ExecuteFunction):
@@ -37,9 +38,9 @@ class ExecuteRender(ExecuteFunction):
         for material in app_session.data_set.query(models.Material).all():
             materials[material.name] = renderer.Material(
                 name=material.name,
-                r=material.red,
-                g=material.green,
-                b=material.blue,
+                r=min(material.red, 1.0),
+                g=min(material.green, 1.0),
+                b=min(material.blue, 1.0),
                 reflectance=material.reflectance
             )
 
@@ -49,7 +50,7 @@ class ExecuteRender(ExecuteFunction):
                 x=sphere.x,
                 y=sphere.y,
                 z=sphere.z,
-                radius=sphere.radius,
+                radius=max(sphere.radius, 0.0),
                 material=materials[sphere.material]
             ))
 
